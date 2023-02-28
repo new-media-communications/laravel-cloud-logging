@@ -1,0 +1,42 @@
+{
+    "name": "nmc/laravel-cloud-logging",
+    "description": "This is my package CloudLogging",
+    "keywords": [
+        "nmc",
+        "laravel",
+        "laravel-cloud-logging"
+    ],
+    "homepage": "https://github.com/new-media-communications/laravel-cloud-logging",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Fitim Vata",
+            "email": "fitimvata28@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1|^8.2",
+        "google/cloud-error-reporting": "^0.19.7",
+        "google/cloud-logging": "^1.21",
+        "illuminate/contracts": "^9.0|^10.0",
+        "spatie/laravel-package-tools": "^1.14.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nmc\\CloudLogging\\": "src"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Nmc\\CloudLogging\\CloudLoggingServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
