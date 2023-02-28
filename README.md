@@ -1,4 +1,4 @@
-# Google Cloud Logger For Laravel
+# Google Cloud Logging For Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/nmc/laravel-cloud-logging.svg?style=flat-square)](https://packagist.org/packages/nmc/laravel-cloud-logging)
 [![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/nmc/laravel-cloud-logging/run-tests?label=tests)](https://github.com/nmc/laravel-cloud-logging/actions?query=workflow%3Arun-tests+branch%3Amain)

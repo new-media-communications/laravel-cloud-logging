@@ -1,6 +1,6 @@
 {
     "name": "nmc/laravel-cloud-logging",
-    "description": "This is my package CloudLogging",
+    "description": "Google Cloud Logging For Laravel",
     "keywords": [
         "nmc",
         "laravel",
