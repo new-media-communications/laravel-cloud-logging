@@ -12,11 +12,15 @@ class CloudLogging
     public static function create(array $config): LoggerInterface
     {
         $name = (string) ($config['name'] ?? 'laravel-cloud-logging');
-        $credentialsKey = is_string($config['credentials']) ? 'keyFilePath' : 'keyFile';
+
+        $credentials = is_string($config['credentials']) ? json_decode($config['credentials'], true) : null;
+        $credentialsKey = is_array($credentials) ? 'keyFile' : (is_string($config['credentials']) ? 'keyFilePath' : 'keyFile');
+        $credentialsValue = is_array($credentials) ? $credentials : $config['credentials'];
+
         $logger = LoggingClient::psrBatchLogger($name, array_merge([
             'clientConfig' => [
                 'projectId' => $config['project'],
-                $credentialsKey => $config['credentials'],
+                $credentialsKey => $credentialsValue,
             ],
         ], $config['client_config'] ?? []));
 
