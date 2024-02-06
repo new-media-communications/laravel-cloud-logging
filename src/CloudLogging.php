@@ -3,34 +3,42 @@
 namespace Nmc\CloudLogging;
 
 use Google\Cloud\Logging\LoggingClient;
+use Google\Cloud\Logging\PsrLogger;
 use Illuminate\Support\Arr;
 use Monolog\Handler\PsrHandler;
 use Monolog\Logger;
-use Nmc\CloudLogging\Google\PsrLogger;
 use Psr\Log\LoggerInterface;
 
 class CloudLogging
 {
-    public static function create(array $config): LoggerInterface
-    {
-        $name = (string) ($config['name'] ?? 'laravel-cloud-logging');
+    public string $name;
 
-        $credentials = is_string($config['credentials']) ? json_decode($config['credentials'], true) : null;
-        $credentialsKey = is_array($credentials) ? 'keyFile' : (is_string($config['credentials']) ? 'keyFilePath' : 'keyFile');
-        $credentialsValue = is_array($credentials) ? $credentials : $config['credentials'];
+    public function __construct(public array $config)
+    {
+        $this->name = (string) ($config['name'] ?? 'laravel-cloud-logging');
+    }
+
+    public function logger(): LoggerInterface
+    {
+        return new Logger($this->name, [new PsrHandler($this->psrLogger())]);
+    }
+
+    public function psrLogger()
+    {
+        $credentials = is_string($this->config['credentials']) ? json_decode($this->config['credentials'], true) : null;
+        $credentialsKey = is_array($credentials) ? 'keyFile' : (is_string($this->config['credentials']) ? 'keyFilePath' : 'keyFile');
+        $credentialsValue = is_array($credentials) ? $credentials : $this->config['credentials'];
 
         $options = array_merge([
             'clientConfig' => [
-                'projectId' => $config['project'],
+                'projectId' => $this->config['project'],
                 $credentialsKey => $credentialsValue,
             ],
-        ], $config['client_config'] ?? []);
+        ], $this->config['client_config'] ?? []);
 
         $options['batchEnabled'] = true;
 
-
         $client = new LoggingClient($options['clientConfig']);
-
 
         $messageKey = null;
 
@@ -51,13 +59,13 @@ class CloudLogging
         ]);
 
         $logger = new PsrLogger(
-            $client->logger($name, $options),
+            $client->logger($this->name, $options),
             $messageKey,
             $psrLoggerOptions + [
                 'clientConfig' => $options['clientConfig']
             ]
         );
 
-        return new Logger($name, [new PsrHandler($logger)]);
+        return $logger;
     }
 }

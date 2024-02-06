@@ -17,21 +17,7 @@ class CloudErrorReporting
 
     public static function report(Throwable $e): void
     {
-        /**
-         * @var \Illuminate\Log\Logger $logger
-         */
-        $logger = Log::channel('stackdriver');
-        $log = $logger->getLogger();
-
-        $handler = null;
-
-        if ($log instanceof Logger) {
-            $handler = $log->getHandlers()[0] ?? null;
-        }
-
-        if (!is_null($handler) && !$handler instanceof PsrHandler) {
-            $handler = null;
-        }
+        $handler = app(CloudLogging::class)->psrLogger();
 
         if (isset($_SERVER['GAE_SERVICE'])) {
             $handler = null;
