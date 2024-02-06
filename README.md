@@ -1,8 +1,6 @@
 # Google Cloud Logging For Laravel
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/nmc/laravel-cloud-logging.svg?style=flat-square)](https://packagist.org/packages/nmc/laravel-cloud-logging)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/nmc/laravel-cloud-logging/run-tests?label=tests)](https://github.com/nmc/laravel-cloud-logging/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/workflow/status/nmc/laravel-cloud-logging/Check%20&%20fix%20styling?label=code%20style)](https://github.com/nmc/laravel-cloud-logging/actions?query=workflow%3A"Check+%26+fix+styling"+branch%3Amain)
 [![Total Downloads](https://img.shields.io/packagist/dt/nmc/laravel-cloud-logging.svg?style=flat-square)](https://packagist.org/packages/nmc/laravel-cloud-logging)
 
 ## Installation
@@ -37,13 +35,13 @@ Edit `app/Exceptions/Handler.php`
 ```php
     use Nmc\CloudLogging\CloudErrorReporting;
 
-    public function report(Throwable $e)
+    public function register(): void
     {
-        if (CloudErrorReporting::isEnabled() && $this->shouldReport($e)) {
-            CloudErrorReporting::report($e);
-        } else {
-            parent::report($e);
-        }
+        $this->reportable(function (Throwable $e) {
+            if (CloudErrorReporting::isEnabled()) {
+                CloudErrorReporting::report($e);
+            }
+        });
     }
 ```
 
