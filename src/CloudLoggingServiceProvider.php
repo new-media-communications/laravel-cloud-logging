@@ -29,6 +29,10 @@ class CloudLoggingServiceProvider extends PackageServiceProvider
      */
     public function packageBooted()
     {
+        if (!config('logging.channels.stackdriver')) {
+            config(['logging.channels.stackdriver' => config('cloud-logging.logger')]);
+        }
+
         /**
          * @var LogManager $log
          */
