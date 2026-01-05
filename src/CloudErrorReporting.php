@@ -3,9 +3,6 @@
 namespace Nmc\CloudLogging;
 
 use Google\Cloud\ErrorReporting\Bootstrap;
-use Illuminate\Support\Facades\Log;
-use Monolog\Handler\PsrHandler;
-use Monolog\Logger;
 use Throwable;
 
 class CloudErrorReporting
