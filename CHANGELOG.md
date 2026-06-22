@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-cloud-logging` will be documented in this file.
 
+## [2.0.2] - 2026-06-22
+
+### Changed
+- Updated `google/cloud-logging` to allow `^2.1.0`
+
 ## [2.0.1] - 2026-04-09
 
 ### Changed
