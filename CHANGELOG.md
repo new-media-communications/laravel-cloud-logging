@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-cloud-logging` will be documented in this file.
 
+## [2.0.3] - 2026-07-28
+
+### Fixed
+- `CloudLogging::psrLogger()` no longer errors when the `credentials` config key is missing (it now falls back to `null`)
+
+### Changed
+- Empty `projectId` and credentials values are now stripped from the Cloud Logging client config, so Application Default Credentials are picked up automatically on Google Cloud (App Engine, Cloud Run, GKE) without setting `CLOUD_LOGGING_PROJECT_ID` or `CLOUD_LOGGING_CREDENTIALS`
+
 ## [2.0.2] - 2026-06-22
 
 ### Changed

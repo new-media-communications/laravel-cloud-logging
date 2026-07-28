@@ -25,15 +25,16 @@ class CloudLogging
 
     public function psrLogger()
     {
-        $credentials = is_string($this->config['credentials']) ? json_decode($this->config['credentials'], true) : null;
-        $credentialsKey = is_array($credentials) ? 'keyFile' : (is_string($this->config['credentials']) ? 'keyFilePath' : 'keyFile');
-        $credentialsValue = is_array($credentials) ? $credentials : $this->config['credentials'];
+        $raw_credentials = $this->config['credentials'] ?? null;
+        $credentials = is_string($raw_credentials) ? json_decode($raw_credentials, true) : null;
+        $credentialsKey = is_array($credentials) ? 'keyFile' : (is_string($raw_credentials) ? 'keyFilePath' : 'keyFile');
+        $credentialsValue = is_array($credentials) ? $credentials : $raw_credentials;
 
         $options = array_merge([
-            'clientConfig' => [
+            'clientConfig' => array_filter([
                 'projectId' => $this->config['project'],
                 $credentialsKey => $credentialsValue,
-            ],
+            ]),
         ], $this->config['client_config'] ?? []);
 
         $options['batchEnabled'] = true;
